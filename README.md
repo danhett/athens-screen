@@ -1,2 +1,2 @@
 # athens-screen
-Sycnhronised screen display for ETET in Athens
+A simple web-based viewer for the split language version of 'every thing, every time'

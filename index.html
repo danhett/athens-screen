@@ -1,0 +1,203 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<html>
+  <head>
+    <title>every thing, every time</title>
+    <script src="gsap/gsap.min.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css?family=Tajawal:700&display=swap');
+
+      body {    
+        background: linear-gradient(241deg, #f29699, #f9ed69);
+        background-size: 400% 400%;
+
+        -webkit-animation: AnimationName 15s ease infinite;
+        -moz-animation: AnimationName 15s ease infinite;
+        animation: AnimationName 15s ease infinite;
+      }
+
+      @-webkit-keyframes AnimationName {
+            0%{background-position:0% 50%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 50%}
+        }
+        @-moz-keyframes AnimationName {
+            0%{background-position:0% 50%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 50%}
+        }
+        @keyframes AnimationName {
+            0%{background-position:0% 50%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 50%}
+        }
+
+      #parent {
+        text-align: center;
+      }
+
+      #translation {
+        display: inline-block;
+        font-family: 'Tajawal', sans-serif;
+        font-weight: 400;
+        font-size:4em;
+        text-align: left;
+        color:#333333;
+        line-height: 0.8em;
+      }
+
+      #readout {
+        font-size: 20px;
+        position: absolute;
+        left: 20px;
+        bottom: 10px;
+      }
+
+      #etet {
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 14px;
+        position: absolute;
+        bottom:30px;
+        left:30px;
+      }
+
+      a:link {
+        text-decoration: none;
+        color:#333333;
+      }
+
+      a:visited {
+        text-decoration: none;
+        color:#333333;
+      }
+
+      a:hover {
+        text-decoration: underline;
+        color:#333333;
+      }
+
+      a:active {
+        text-decoration: underline;
+        color:#333333;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="parent">
+      <div id="translation">
+        <p class="poemline" id="line1"></p>
+        <p class="poemline" id="line2"></p>
+        <p class="poemline" id="line3"></p>
+        <p class="poemline" id="line4"></p>
+      </div>
+    </div>
+
+    <div id="etet"><a href="https://futureeverything.org/">E T E T</a></div>
+  </body>
+
+  <script type="text/javascript">
+    var transDiv = document.getElementById('translation');
+    var line1 = document.getElementById("line1");
+    var line2 = document.getElementById("line2");
+    var line3 = document.getElementById("line3");
+    var line4 = document.getElementById("line4");
+    var currentTicks = 0;
+    var maxTicks = 5;
+    var SCREEN_MODE = false;
+    var poem_url = "https://ee-athens.herokuapp.com/poem"; // general use
+    var screen_url = "https://ee-athens.herokuapp.com/cached"; // screen mode
+    var url;
+
+    var currentPoem = {
+      "poem": [
+        "this",
+        "is",
+        "a",
+        "placeholder"
+      ]
+    };
+
+    var params = {};      
+    if (location.search) {
+    var parts = location.search.substring(1).split('&');
+
+    for (var i = 0; i < parts.length; i++) {
+        var nv = parts[i].split('=');
+        if (!nv[0]) continue;
+        params[nv[0]] = nv[1] || true;
+      }
+    }
+
+    SCREEN_MODE = params.screen === "true";
+
+    if(SCREEN_MODE) {
+      url = screen_url;
+    }
+    else {
+      url = poem_url;
+    }
+
+    getPoem = function() {
+      fetch(url)
+      .then((resp) => resp.json())
+      .then(function(data) {
+
+        //console.log(currentPoem);
+        //console.log(data);
+        //console.log("---------")
+
+        if(currentPoem.poem[0] != data.poem[0] && currentPoem.poem[1] != data.poem[1]) {
+          currentPoem = data;
+
+          line1.innerHTML = "";
+          line2.innerHTML = "";
+          line3.innerHTML = "";
+          line4.innerHTML = "";
+
+          setTimeout(function(){
+            printPoem(currentPoem);
+          }, 1000);
+        }
+      })
+    }
+
+    printPoem = function(p) {
+      line1.innerHTML = p.poem[0].split("/")[1] + ",";
+      line2.innerHTML = p.poem[1].split("/")[1] + ",";
+      line3.innerHTML = p.poem[2].split("/")[1] + ",";
+      line4.innerHTML = p.poem[3].split("/")[1] 
+
+      gsap.from(line1, 1, {alpha:0, delay:1});
+      gsap.from(line2, 1, {alpha:0, delay:3});
+      gsap.from(line3, 1, {alpha:0, delay:5});
+      gsap.from(line4, 1, {alpha:0, delay:7});
+    }
+
+    updateCounter = function() {
+      if(currentTicks < maxTicks) {
+        currentTicks++;
+      } else {
+        currentTicks = 0;
+        //poemDiv.innerHTML = "poem loading...";
+        getPoem();
+      }
+
+      //readoutDiv.innerHTML = "Refreshing in " + (maxTicks - currentTicks) + " seconds.";
+    }
+
+    if(SCREEN_MODE) {
+      //console.log("in screen mode, waiting for cache update")
+      setInterval(function() {
+        updateCounter();
+      }, 5000);
+    }
+    else {
+      //console.log("in regular mode, updating every 30 seconds")
+      setInterval(function() {
+        getPoem();
+      }, 30000);
+    }
+
+    getPoem();
+  </script>
+</html>

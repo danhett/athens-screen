@@ -4,7 +4,7 @@
     <title>every thing, every time</title>
     <script src="gsap/gsap.min.js"></script>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@1,600&display=swap');
 
       body {    
         background: linear-gradient(241deg, #f29699, #f9ed69);
@@ -31,25 +31,16 @@
             100%{background-position:0% 50%}
         }
 
-      #parent {
-        text-align: center;
-      }
-
       #translation {
-        display: inline-block;
+        position:absolute;
         font-family: 'Open Sans', sans-serif;
-        font-weight: 400;
+        font-weight: 600;
         font-size:4em;
         text-align: left;
         color:#333333;
         line-height: 0.8em;
-      }
-
-      #readout {
-        font-size: 20px;
-        position: absolute;
-        left: 20px;
-        bottom: 10px;
+        left: 50px;
+        top:50px;
       }
 
       #etet {
@@ -57,7 +48,7 @@
         font-size: 14px;
         position: absolute;
         bottom:30px;
-        left:30px;
+        right:30px;
       }
 
       a:link {
@@ -83,16 +74,14 @@
   </head>
 
   <body>
-    <div id="parent">
-      <div id="translation">
-        <p class="poemline" id="line1"></p>
-        <p class="poemline" id="line2"></p>
-        <p class="poemline" id="line3"></p>
-        <p class="poemline" id="line4"></p>
-      </div>
+    <div id="translation">
+      <p class="poemline" id="line1"></p>
+      <p class="poemline" id="line2"></p>
+      <p class="poemline" id="line3"></p>
+      <p class="poemline" id="line4"></p>
     </div>
 
-    <div id="etet"><a href="https://futureeverything.org/">E T E T</a></div>
+    <div id="etet"><a href="https://www.onassis.org/whats-on/festival-you-and-ai-through-the-algorithmic-lens/">E T E T</a></div>
   </body>
 
   <script type="text/javascript">
@@ -181,8 +170,6 @@
         //poemDiv.innerHTML = "poem loading...";
         getPoem();
       }
-
-      //readoutDiv.innerHTML = "Refreshing in " + (maxTicks - currentTicks) + " seconds.";
     }
 
     if(SCREEN_MODE) {

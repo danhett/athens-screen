@@ -119,12 +119,21 @@
 
     SCREEN_MODE = params.screen === "true";
 
+    // OLD CODE
+    /*
     if(SCREEN_MODE) {
       url = screen_url;
     }
     else {
       url = poem_url;
     }
+    */
+   // END OLD CODE
+
+    // HARD-CODING FOR ATHENS
+    // We only want the cached poem, no new poems anywhere:
+    url = screen_url;
+    // HARD-CODING ENDS
 
     getPoem = function() {
       fetch(url)
